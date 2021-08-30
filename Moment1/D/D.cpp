@@ -1,29 +1,43 @@
-#include <bits/stdc++.h>
-
-void topView(node *root)
+void topView(Node *root)
 {
-    if (root == NULL)
-        return;
-    unordered_map<int, int> m;
-    queue<int, int> q;
-
-    q.push(make_pair(root, 0);
-
-    while (!q.empty()) {
-        pair<Node *, int> p = q.front();
-        Node *n = p.first;
-        int val = p.second;
-        q.pop();
-
-        if (m.find(val) == m.end())
+    queue<pair<Node *, int>> q;
+    q.push(make_pair(root, 0));
+    int hd = 0, l = 0, r = 0;
+    stack<int> s;
+    vector<int> v;
+    Node *node;
+    while (q.size())
+    {
+        node = q.front().first;
+        hd = q.front().second;
+        if (hd < l)
         {
-            m[val] = n->data;
-            cout << n->data << " ";
+            s.push(node->data);
+            l = hd;
         }
-
-        if (n->left != NULL)
-            q.push(make_pair(n->left, val - 1));
-        if (n->right != NULL)
-            q.push(make_pair(n->right, val + 1));    
+        else if (hd > r)
+        {
+            v.push_back(node->data);
+            r = hd;
+        }
+        if (node->left)
+        {
+            q.push(make_pair(node->left, hd - 1));
+        }
+        if (node->right)
+        {
+            q.push(make_pair(node->right, hd + 1));
+        }
+        q.pop();
+    }
+    while (s.size())
+    {
+        cout << s.top() << " ";
+        s.pop();
+    }
+    cout << root->data << " ";
+    for (auto x : v)
+    {
+        cout << x << " ";
     }
 }
